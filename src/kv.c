@@ -72,7 +72,7 @@ int kv_put(kv_t *db, char *key, char *value)
     }
 
     // the db is occuped
-    return -1;
+    return -2;
     
 }
 

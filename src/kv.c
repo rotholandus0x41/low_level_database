@@ -4,77 +4,77 @@
 
 #define TOMBSTONE 0x1
 
-size_t hash(const char *val, int capacity)
-{
-    size_t hash = 0x13371337deadbeef;
+// size_t hash(const char *val, int capacity)
+// {
+//     size_t hash = 0x13371337deadbeef;
 
-    while(*val)
-    {
-        hash ^= *val;
-        hash = hash << 8;
-        hash += *val;
+//     while(*val)
+//     {
+//         hash ^= *val;
+//         hash = hash << 8;
+//         hash += *val;
 
-        val++;
-    }
+//         val++;
+//     }
 
-    return hash % capacity;
-}
+//     return hash % capacity;
+// }
 
-/*
-    fn kv_put
-    params:
-        - db: a pointer to the db
-        - key: a pointer to the key value
-        - value: a pointer to the value itself
-    returns: the index of the key, otherwise on
-    error, returns -1, on not found return -2
-*/
+// /*
+//     fn kv_put
+//     params:
+//         - db: a pointer to the db
+//         - key: a pointer to the key value
+//         - value: a pointer to the value itself
+//     returns: the index of the key, otherwise on
+//     error, returns -1, on not found return -2
+// */
 
-int kv_put(kv_t *db, const char *key, const char *value)
-{
-    if (!db ||!key || !value) return -1;
+// int kv_put(kv_t *db, const char *key, const char *value)
+// {
+//     if (!db ||!key || !value) return -1;
 
-    size_t idx = hash(key, db->capacity);
+//     size_t idx = hash(key, db->capacity);
 
-    for (int i = 0; i < db->capacity; i++)
-    {
-        size_t real_idx = (idx + i) % db->capacity;
-        kv_entry_t *entry = &db->entries[real_idx];
+//     for (int i = 0; i < db->capacity; i++)
+//     {
+//         size_t real_idx = (idx + i) % db->capacity;
+//         kv_entry_t *entry = &db->entries[real_idx];
 
-        // the key is aldready set, updating
-        if (entry->key &&
-             entry->key != (void*)TOMBSTONE &&
-             !strcmp(entry->key, key))
-        {
-            char *newval = strdup(value);
-            if (!newval) return -1;
-            entry->value = newval;
-            return real_idx;
-        }
+//         // the key is aldready set, updating
+//         if (entry->key &&
+//              entry->key != (void*)TOMBSTONE &&
+//              !strcmp(entry->key, key))
+//         {
+//             char *newval = strdup(value);
+//             if (!newval) return -1;
+//             entry->value = newval;
+//             return real_idx;
+//         }
 
-        // land in a slot that is "empty"
-        // null or tombstone
-        if (!entry->key || entry->key == (void*)TOMBSTONE)
-        {
-            char *newval = strdup(value);
-            char *newkey = strdup(key);
-            if (!newval || !newkey)
-            {
-                free(newkey);
-                free(newval);
-                return -1;
-            }
-            entry->key = newkey;
-            entry->value = newval;
-            db->count++;
-            return real_idx;
-        }
-    }
+//         // land in a slot that is "empty"
+//         // null or tombstone
+//         if (!entry->key || entry->key == (void*)TOMBSTONE)
+//         {
+//             char *newval = strdup(value);
+//             char *newkey = strdup(key);
+//             if (!newval || !newkey)
+//             {
+//                 free(newkey);
+//                 free(newval);
+//                 return -1;
+//             }
+//             entry->key = newkey;
+//             entry->value = newval;
+//             db->count++;
+//             return real_idx;
+//         }
+//     }
 
-    // the db is occuped
-    return -2;
+//     // the db is occuped
+//     return -2;
     
-}
+// }
 
 // function for init a table for a database
 kv_t *kv_init(size_t capacity)

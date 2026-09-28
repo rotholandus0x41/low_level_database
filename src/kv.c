@@ -4,7 +4,7 @@
 
 #define TOMBSTONE 0x1
 
-size_t hash(char *val, int capacity)
+size_t hash(const char *val, int capacity)
 {
     size_t hash = 0x13371337deadbeef;
 
@@ -30,7 +30,7 @@ size_t hash(char *val, int capacity)
     error, returns -1, on not found return -2
 */
 
-int kv_put(kv_t *db, const char *key, const char *value)
+int kv_put(kv_t *db, char *key, const char *value)
 {
     if (!db ||!key || !value) return -1;
 

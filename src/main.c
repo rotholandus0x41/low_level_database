@@ -3,7 +3,7 @@
 
 int main()
 {
-    kv_t *table = kv_init(3);
+    kv_t *table = kv_init(5);
     printf("%p", table);
     printf("%lld\n", table->capacity);
 
@@ -13,7 +13,7 @@ int main()
     {
         if (table->entries[i].key)
         {
-            printf("%s: %s\n", table->entries[i].key, table->entries[i].value);
+            printf("[%d] %s: %s\n", i , table->entries[i].key, table->entries[i].value);
         }
     }
 }

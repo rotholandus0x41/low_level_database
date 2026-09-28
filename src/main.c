@@ -3,8 +3,8 @@
 
 int main()
 {
-    // kv_t *table = kv_init(5);
-    // printf("%p", table);
+    kv_t *table = kv_init(5);
+    printf("%p", table);
     // printf("%lld\n", table->capacity);
 
     // kv_put(table, "hehe", "haha");
